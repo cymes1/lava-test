@@ -1,4 +1,4 @@
-add_library(graphics window.cpp)
+add_library(graphics window.cpp vulkan-helper.cpp)
 
 target_link_libraries(graphics Vulkan::Vulkan)
 target_link_libraries(graphics glfw)

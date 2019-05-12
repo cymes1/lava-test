@@ -4,6 +4,7 @@
 #include "graphics/window.h"
 #include "tests/test.h"
 #include "tests/test-available-vulkan-extensions.h"
+#include "tests/test-create-instance.h"
 
 namespace VulkanTest {
 

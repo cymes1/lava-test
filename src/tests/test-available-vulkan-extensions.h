@@ -4,6 +4,7 @@
 #include <vector>
 #include <vulkan/vulkan.h>
 #include "test.h"
+#include "../graphics/vulkan-helper.h"
 #include "../utils/log.h"
 
 namespace VulkanTest::Tests {
@@ -12,9 +13,6 @@ namespace VulkanTest::Tests {
 	{
 	public:
 		TestAvailableVulkanExtensions();
-
-	private:
-		bool checkAvailableVulkanExtensions();
 	};
 
 }

@@ -16,6 +16,7 @@ namespace VulkanTest {
 		glfwSetKeyCallback(m_window.handle(), keyCallback);
 		
 		m_menu->registerTest<Tests::TestAvailableVulkanExtensions>("Check available vulkan extensions.");
+		m_menu->registerTest<Tests::TestCreateInstance>("Create vulkan instance.");
 		m_menu->chooseTest();
 	}
 
