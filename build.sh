@@ -16,5 +16,8 @@ if [ -d "../compile_commands.json" ]; then
 fi
 cp ./compile_commands.json ../compile_commands.json
 
+# copy program data
+cp -r ../data build/bin/
+
 # returning to root directory
 cd ../../../

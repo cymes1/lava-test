@@ -16,7 +16,7 @@ namespace VulkanTest::Graphics {
 		// check if success
 		if(result != VK_SUCCESS || extensionsCount == 0)
 		{
-			Utils::Log::error("Could not get the number of instance extensions.");
+			Utils::Log::error("failed");
 			return false;
 		}
 		Utils::Log::info("success");
@@ -30,7 +30,7 @@ namespace VulkanTest::Graphics {
 
 		if(result != VK_SUCCESS)
 		{
-			Utils::Log::error("Could not get the properties of instance extensions.");
+			Utils::Log::error("failed");
 			return false;
 		}
 		Utils::Log::info("success");
@@ -48,8 +48,7 @@ namespace VulkanTest::Graphics {
 		return true;
 	}
 
-	bool checkIfRequiredExtensionsArePresent(const std::vector<const char*>& requiredExtensions,
-			const std::vector<VkExtensionProperties>& availableExtensions)
+	bool checkIfRequiredExtensionsArePresent(const std::vector<const char*>& requiredExtensions, const std::vector<VkExtensionProperties>& availableExtensions)
 	{
 		// enumerate through all extensions
 		for(const char* extension : requiredExtensions)
@@ -67,7 +66,7 @@ namespace VulkanTest::Graphics {
 		return true;
 	}
 
-	bool isExtensionSupported(const std::vector<VkExtensionProperties>& availableExtensions, const char* extension)
+	bool isExtensionSupported(const std::vector<VkExtensionProperties>& availableExtensions, const std::string& extension)
 	{
 		for(const VkExtensionProperties& properties : availableExtensions)
 		{
@@ -96,7 +95,7 @@ namespace VulkanTest::Graphics {
 		instanceCreateInfo.pApplicationInfo = &applicationInfo;
 		instanceCreateInfo.enabledLayerCount = 0;
 		instanceCreateInfo.ppEnabledLayerNames = nullptr;
-		instanceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(requiredExtensions.size());
+		instanceCreateInfo.enabledExtensionCount = requiredExtensions.size();
 		instanceCreateInfo.ppEnabledExtensionNames = requiredExtensions.data();
 		Utils::Log::info("Created structure VkInstanceCreateInfo.");
 
@@ -104,7 +103,7 @@ namespace VulkanTest::Graphics {
 		VkResult result = vkCreateInstance(&instanceCreateInfo, nullptr, &instance);
 		if((result != VK_SUCCESS) || (instance == VK_NULL_HANDLE))
 		{
-			Utils::Log::error("Could not create Vulkan Instance.");
+			Utils::Log::error("failed");
 			return false;
 		}
 
