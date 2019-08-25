@@ -5,6 +5,7 @@
 #include "tests/test.h"
 #include "tests/test-available-vulkan-extensions.h"
 #include "tests/test-create-instance.h"
+#include "tests/test-enumerate-physical-devices.h"
 
 namespace VulkanTest {
 

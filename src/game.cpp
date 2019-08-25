@@ -17,6 +17,7 @@ namespace VulkanTest {
 		
 		m_menu->registerTest<Tests::TestAvailableVulkanExtensions>("Check available vulkan extensions.");
 		m_menu->registerTest<Tests::TestCreateInstance>("Create vulkan instance.");
+		m_menu->registerTest<Tests::TestEnumeratePhysicalDevices>("Enumerate available physical devices.");
 		m_menu->chooseTest();
 	}
 

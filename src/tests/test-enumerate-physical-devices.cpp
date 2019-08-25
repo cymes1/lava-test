@@ -1,11 +1,11 @@
-#include "test-create-instance.h"
+#include "test-enumerate-physical-devices.h"
 #include "../utils/log.h"
 
 namespace VulkanTest::Tests {
 
-	TestCreateInstance::TestCreateInstance()
+	TestEnumeratePhysicalDevices::TestEnumeratePhysicalDevices()
 	{
-		Utils::Log::info("Starting test: create vulkan instance.");
+		Utils::Log::info("Starting test: get available vulkan instance extensions.");
 		Utils::Log::info("");
 
 		// check vulkan instance extensions
@@ -42,6 +42,14 @@ namespace VulkanTest::Tests {
 		// create vulkan instance
 		VkInstance instance;
 		if(!Graphics::createVulkanInstance(instance, requiredExtensions))
+		{
+			Utils::Log::error("failed");
+			return;
+		}
+
+		// enumerate physical devices
+		std::vector<VkPhysicalDevice> availableDevices;
+		if(!Graphics::enumeratePhysicalDevices(instance, availableDevices))
 			Utils::Log::error("failed");
 	}
 }
