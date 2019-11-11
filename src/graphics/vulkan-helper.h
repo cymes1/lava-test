@@ -15,6 +15,7 @@ namespace VulkanTest::Graphics {
 	bool createVulkanInstance(VkInstance& instance, const std::vector<const char*>& requiredExtensions);
 	bool readRequiredExtension(const std::string& filepath, std::vector<std::string>& requiredExtensions);
 	bool enumeratePhysicalDevices(VkInstance& instance, std::vector<VkPhysicalDevice>& availableDevices);
+	bool enumeratePhysicalDeviceExtensions(const VkPhysicalDevice& device, std::vector<VkExtensionProperties>& extensionProperties);
 }
 
 #endif

@@ -1,11 +1,11 @@
-#include "test-enumerate-physical-devices.h"
+#include "test-enumerate-physical-device-extensions.h"
 #include "../utils/log.h"
 
 namespace VulkanTest::Tests {
 
-	TestEnumeratePhysicalDevices::TestEnumeratePhysicalDevices()
+	TestEnumeratePhysicalDeviceExtensions::TestEnumeratePhysicalDeviceExtensions()
 	{
-		Utils::Log::info("Starting test: enumerate physical devices.");
+		Utils::Log::info("Starting test: enumerate physical devices extensions.");
 		Utils::Log::info("");
 
 		// check vulkan instance extensions
@@ -51,5 +51,19 @@ namespace VulkanTest::Tests {
 		std::vector<VkPhysicalDevice> availableDevices;
 		if(!Graphics::enumeratePhysicalDevices(instance, availableDevices))
 			Utils::Log::error("failed");
+
+		std::vector<VkExtensionProperties>* availablePhysicalDeviceExtensions;
+		availablePhysicalDeviceExtensions = new std::vector<VkExtensionProperties>[availableDevices.size()];
+
+		int index = 0;
+		for(VkPhysicalDevice device : availableDevices)
+		{
+			Utils::Log::info(("Enumerating extensions of the " + std::to_string(index + 1) + " physical device...").c_str());
+			if(!Graphics::enumeratePhysicalDeviceExtensions(device, availablePhysicalDeviceExtensions[index]))
+				Utils::Log::error("failed");
+			index++;
+		}
+
+		delete[] availablePhysicalDeviceExtensions;
 	}
 }
