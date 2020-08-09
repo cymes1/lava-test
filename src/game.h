@@ -14,8 +14,8 @@ namespace VulkanTest {
 	{
 	private:
 		Graphics::Window m_window;
-		Tests::Test* m_currentTest;
-		Tests::TestMenu* m_menu;
+		Tests::Test* currentTest;
+		Tests::TestMenu* menu;
 
 
 	public:

@@ -8,35 +8,35 @@ bool isEscapePressed = false;
 namespace VulkanTest {
 
 	Game::Game()
-		: m_window(800, 600, "lava")
+		: m_window(800, 600, "lava"), currentTest(nullptr)
 	{
-		m_menu = new Tests::TestMenu(m_currentTest);
+        menu = new Tests::TestMenu(currentTest);
 
 		// set input callback
 		glfwSetKeyCallback(m_window.handle(), keyCallback);
 		
-		m_menu->registerTest<Tests::TestAvailableVulkanExtensions>("Check available vulkan extensions.");
-		m_menu->registerTest<Tests::TestCreateInstance>("Create vulkan instance.");
-		m_menu->registerTest<Tests::TestEnumeratePhysicalDevices>("Enumerate available physical devices.");
-		m_menu->registerTest<Tests::TestEnumeratePhysicalDeviceExtensions>("Enumerate available physical devices extensions.");
-		m_menu->chooseTest();
+		menu->registerTest<Tests::TestAvailableVulkanExtensions>("Check available vulkan extensions.");
+		menu->registerTest<Tests::TestCreateInstance>("Create vulkan instance.");
+		menu->registerTest<Tests::TestEnumeratePhysicalDevices>("Enumerate available physical devices.");
+		menu->registerTest<Tests::TestEnumeratePhysicalDeviceExtensions>("Enumerate available physical devices extensions.");
+		menu->chooseTest();
 	}
 
 	void Game::run()
 	{
 		while(!glfwWindowShouldClose(m_window.handle()))
 		{
-			if(m_currentTest)
+			if(currentTest)
 			{
-				if(m_currentTest != m_menu && isEscapePressed)
+				if(currentTest != menu && isEscapePressed)
 				{
-					delete m_currentTest;
-					m_currentTest = m_menu;
-					m_menu->chooseTest();
+					delete currentTest;
+                    currentTest = menu;
+					menu->chooseTest();
 				}
-				m_currentTest->OnUpdate(0);
-				m_currentTest->OnRender();
-				m_currentTest->OnImGuiRender();
+				currentTest->OnUpdate(0);
+				currentTest->OnRender();
+				currentTest->OnImGuiRender();
 			}
 
 			glfwPollEvents();
@@ -45,9 +45,9 @@ namespace VulkanTest {
 
 	void Game::clean()
 	{
-		delete m_currentTest;
-		if(m_currentTest != m_menu)
-			delete m_menu;
+		delete currentTest;
+		if(currentTest != menu)
+			delete menu;
 	}
 }
 

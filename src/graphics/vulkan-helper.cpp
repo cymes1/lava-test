@@ -2,7 +2,7 @@
 
 namespace VulkanTest::Graphics {
 
-	bool checkAvailableVulkanExtensions(std::vector<VkExtensionProperties>& extensionsProperties)
+	bool checkAvailableVulkanExtensions(std::vector<VkExtensionProperties>* extensionsProperties)
 	{
 		VkResult result;
 
@@ -22,11 +22,11 @@ namespace VulkanTest::Graphics {
 		Utils::Log::info("success");
 
 		// stores the properties of available instance extensions
-		extensionsProperties.resize(extensionsCount);
+		extensionsProperties->resize(extensionsCount);
 
 		// retrieve the properties of available instance extensions
 		Utils::Log::info("Retrieving the properties of available vulkan instance externsions...");
-		result = vkEnumerateInstanceExtensionProperties(nullptr, &extensionsCount, extensionsProperties.data());
+		result = vkEnumerateInstanceExtensionProperties(nullptr, &extensionsCount, extensionsProperties->data());
 
 		if(result != VK_SUCCESS)
 		{
@@ -38,7 +38,7 @@ namespace VulkanTest::Graphics {
 		// log number of available instance extensions
 		Utils::Log::info("");
 		Utils::Log::info(("Available instance extensions: " + std::to_string(extensionsCount)).c_str());
-		for(auto properties : extensionsProperties)
+		for(auto properties : *extensionsProperties)
 		{
 			Utils::Log::info((std::string("\tname: ") + properties.extensionName).c_str());
 			Utils::Log::info((std::string("\tversion: ") + std::to_string(properties.specVersion)).c_str());
@@ -48,7 +48,7 @@ namespace VulkanTest::Graphics {
 		return true;
 	}
 
-	bool readRequiredExtension(const std::string& filepath, std::vector<std::string>& requiredExtensions)
+	bool readRequiredExtension(const std::string& filepath, std::vector<const char*>* requiredExtensions)
 	{
 		std::string startPhrase = "required_instance_extensions start";
 		std::string endPhrase = "required_instance_extensions end";
@@ -86,7 +86,7 @@ namespace VulkanTest::Graphics {
 		}
 		controlPhraseFound = false;
 
-		// read read required instance extensions from file until end phrase is found
+		// read required instance extensions from file until end phrase is found
 		while(getline(stream, line))
 		{
 			// find end phrase in file
@@ -97,7 +97,7 @@ namespace VulkanTest::Graphics {
 			}
 			else // read required instance extensions into a vector
 			{
-				requiredExtensions.push_back(line);
+				requiredExtensions->push_back(line.c_str());
 			}
 		}
 
@@ -117,7 +117,7 @@ namespace VulkanTest::Graphics {
 		// list required instance extensions
 		Utils::Log::info("");
 		Utils::Log::info("Required instance extensions:");
-		for(std::string extension : requiredExtensions)
+		for(const char* extension : *requiredExtensions)
 			Utils::Log::info((std::string("\t") + extension).c_str());
 		Utils::Log::info("");
 		return true;

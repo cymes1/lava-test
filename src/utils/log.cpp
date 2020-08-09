@@ -2,6 +2,6 @@
 
 namespace VulkanTest::Utils {
 	
-	Log::Level Log::m_logLevel = Log::LEVEL_INFO;
+	Log::Level Log::logLevel = Log::LEVEL_INFO;
 
 }

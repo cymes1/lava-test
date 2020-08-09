@@ -9,9 +9,9 @@ namespace VulkanTest::Graphics {
 	class Window
 	{
 	private:
-		int m_width;
-		int m_height;
-		GLFWwindow* m_window;
+		int width;
+		int height;
+		GLFWwindow* windowHandle;
 
 	public:
 		Window(int width, int height, const char* title);

@@ -11,8 +11,8 @@ namespace VulkanTest::Tests {
 	class Test
 	{
 	public:
-		Test() {}
-		virtual ~Test() {}
+		Test() = default;
+		virtual ~Test() = default;
 
 		virtual void OnUpdate(float deltaTime) {}
 		virtual void OnRender() {}
@@ -26,7 +26,7 @@ namespace VulkanTest::Tests {
 		std::vector<std::pair<std::string, std::function<Test*()>>> m_tests;
 
 	public:
-		TestMenu(Test*& currentTestPointer);
+		explicit TestMenu(Test*& currentTestPointer);
 
 		void chooseTest();
 

@@ -17,38 +17,38 @@ namespace VulkanTest::Utils {
 		};
 
 	private:
-		static Level m_logLevel;
+		static Level logLevel;
 
 	public:
 		static inline void setLevel(Level level)
 		{
-#ifndef NDEBUG
-		m_logLevel = level;
-#endif
+            #ifndef NDEBUG
+            logLevel = level;
+            #endif
 		}
 
 		static inline void error(const char* message)
 		{
-#ifndef NDEBUG
-		if(m_logLevel >= LEVEL_ERROR)
-			std::cout << "[Error]: " << message << std::endl;
-#endif
+            #ifndef NDEBUG
+            if(logLevel >= LEVEL_ERROR)
+                std::cout << "[Error]: " << message << std::endl;
+            #endif
 		}
 
 		static inline void warn(const char* message)
 		{
-#ifndef NDEBUG
-		if(m_logLevel >= LEVEL_WARNING)
-			std::cout << "[Warning]: " << message << std::endl;
-#endif
+            #ifndef NDEBUG
+            if(logLevel >= LEVEL_WARNING)
+                std::cout << "[Warning]: " << message << std::endl;
+            #endif
 		}
 
 		static inline void info(const char* message)
 		{
-#ifndef NDEBUG
-		if(m_logLevel >= LEVEL_INFO)
-			std::cout << "[Info]: " << message << std::endl;
-#endif
+            #ifndef NDEBUG
+            if(logLevel >= LEVEL_INFO)
+                std::cout << "[Info]: " << message << std::endl;
+            #endif
 		}
 	};
 }

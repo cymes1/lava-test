@@ -3,21 +3,21 @@
 namespace VulkanTest::Graphics {
 
 	Window::Window(int width, int height, const char* title)
-		: m_width(width), m_height(height)
+		: width(width), height(height)
 	{
 		glfwInit();
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-		m_window = glfwCreateWindow(m_width, m_height, title, nullptr, nullptr);
+        windowHandle = glfwCreateWindow(width, height, title, nullptr, nullptr);
 	}
 
 	Window::~Window()
 	{
-		glfwDestroyWindow(m_window);
+		glfwDestroyWindow(windowHandle);
 		glfwTerminate();
 	}
 
 	GLFWwindow* Window::handle()
 	{
-		return m_window;
+		return windowHandle;
 	}
 }
