@@ -2,7 +2,7 @@
 
 # creating directory build if not exist
 mkdir -p build
-cd build
+cd build || exit
 
 # running cmake
 cmake ..
@@ -14,7 +14,7 @@ make
 cp -r ../data build/bin/
 
 # running program
-cd build/bin
+cd build/bin || exit
 ./vulkan-test
 
 # returning to root directory

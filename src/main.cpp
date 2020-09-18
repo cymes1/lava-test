@@ -1,5 +1,4 @@
 #include <stdexcept>
-
 #include "game.h"
 #include "utils/log.h"
 

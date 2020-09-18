@@ -22,6 +22,10 @@ namespace VulkanTest {
 		Game();
 		void run();
 		void clean();
+
+	private:
+	    void registerTests();
+	    void handleInput();
 	};
 }
 
