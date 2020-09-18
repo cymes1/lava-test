@@ -1,52 +1,62 @@
-#include "vulkan-helper.h"
+#include "test-available-vulkan-extensions-helper.h"
 
 namespace VulkanTest::Graphics {
 
-	bool checkAvailableVulkanExtensions(std::vector<VkExtensionProperties>* extensionsProperties)
-	{
-		VkResult result;
+    bool checkAvailableVulkanExtensions(std::vector<VkExtensionProperties> *extensionProperties)
+    {
+        uint32_t extensionCount;
+        bool result = retrieveVulkanExtensionCount(&extensionCount);
+        if (!result)
+            return false;
 
-		// stores the number of available instance extensions
-		uint32_t extensionsCount;
+        extensionProperties->resize(extensionCount);
+        result = enumerateVulkanExtensionProperties(extensionProperties, &extensionCount);
+        if(!result)
+            return false;
 
-		// retrieve the number of available instance extensions
-		Utils::Log::info("Retrieving the number of available vulkan instance extensions...");
-		result = vkEnumerateInstanceExtensionProperties(nullptr, &extensionsCount, nullptr);
+        return true;
+    }
 
-		// check if success
-		if(result != VK_SUCCESS || extensionsCount == 0)
-		{
-			Utils::Log::error("failed");
-			return false;
-		}
-		Utils::Log::info("success");
+    bool retrieveVulkanExtensionCount(uint32_t* extensionCount)
+    {
+        Utils::Log::info("Retrieving the number of available vulkan instance extensions...");
+        VkResult result = vkEnumerateInstanceExtensionProperties(nullptr, extensionCount, nullptr);
+        if (!wasVulkanExtensionCountRetrievalSuccessful(result, *extensionCount))
+        {
+            Utils::Log::error("failed");
+            return false;
+        }
+        Utils::Log::info("success");
+        return true;
+    }
 
-		// stores the properties of available instance extensions
-		extensionsProperties->resize(extensionsCount);
+    bool wasVulkanExtensionCountRetrievalSuccessful(VkResult result, uint32_t extensionCount)
+    {
+        return result == VK_SUCCESS && extensionCount != 0;
+    }
 
-		// retrieve the properties of available instance extensions
-		Utils::Log::info("Retrieving the properties of available vulkan instance externsions...");
-		result = vkEnumerateInstanceExtensionProperties(nullptr, &extensionsCount, extensionsProperties->data());
+    bool enumerateVulkanExtensionProperties(std::vector<VkExtensionProperties>* extensionProperties, uint32_t* extensionCount)
+    {
+        Utils::Log::info("Retrieving the properties of available vulkan instance extensions...");
+        VkResult result = vkEnumerateInstanceExtensionProperties(nullptr, extensionCount, extensionProperties->data());
+        if (result != VK_SUCCESS) {
+            Utils::Log::error("failed");
+            return false;
+        }
+        Utils::Log::info("success");
+        return true;
+    }
 
-		if(result != VK_SUCCESS)
-		{
-			Utils::Log::error("failed");
-			return false;
-		}
-		Utils::Log::info("success");
-
-		// log number of available instance extensions
-		Utils::Log::info("");
-		Utils::Log::info(("Available instance extensions: " + std::to_string(extensionsCount)).c_str());
-		for(auto properties : *extensionsProperties)
-		{
-			Utils::Log::info((std::string("\tname: ") + properties.extensionName).c_str());
-			Utils::Log::info((std::string("\tversion: ") + std::to_string(properties.specVersion)).c_str());
-			Utils::Log::info("");
-		}
-
-		return true;
-	}
+    void logAvailableVulkanExtensions(std::vector<VkExtensionProperties>* extensionProperties)
+    {
+        Utils::Log::info("");
+        Utils::Log::info(("Available instance extensions: " + std::to_string(extensionProperties->size())).c_str());
+        for (auto properties : *extensionProperties) {
+            Utils::Log::info((std::string("\tname: ") + properties.extensionName).c_str());
+            Utils::Log::info((std::string("\tversion: ") + std::to_string(properties.specVersion)).c_str());
+            Utils::Log::info("");
+        }
+    }
 
 	bool readRequiredExtension(const std::string& filepath, std::vector<const char*>* requiredExtensions)
 	{

@@ -9,7 +9,10 @@ namespace VulkanTest::Tests {
 
 		std::vector<VkExtensionProperties> availableExtensions;
 		if(Graphics::checkAvailableVulkanExtensions(&availableExtensions))
-			Utils::Log::info("Test result: success");
+        {
+            Graphics::logAvailableVulkanExtensions(&availableExtensions);
+            Utils::Log::info("Test result: success");
+        }
 		else
 			Utils::Log::error("Test result: failed.");
 	}

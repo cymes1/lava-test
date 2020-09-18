@@ -4,7 +4,7 @@
 #include <vector>
 #include <vulkan/vulkan.h>
 #include "test.h"
-#include "../graphics/vulkan-helper.h"
+#include "../graphics/test-available-vulkan-extensions-helper.h"
 #include "../utils/log.h"
 
 namespace VulkanTest::Tests {
