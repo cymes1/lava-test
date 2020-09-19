@@ -8,7 +8,8 @@ namespace VulkanTest::Tests {
 		Utils::Log::info("");
 
 		std::vector<VkExtensionProperties> availableExtensions;
-		if(Graphics::checkAvailableVulkanExtensions(&availableExtensions))
+		bool result = Graphics::checkAvailableVulkanExtensions(&availableExtensions);
+		if(result)
         {
             Graphics::logAvailableVulkanExtensions(&availableExtensions);
             Utils::Log::info("Test result: success");
