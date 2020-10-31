@@ -11,7 +11,7 @@ namespace VulkanTest::Tests {
         bool result = Graphics::checkAvailableVulkanExtensions(&availableExtensions);
         if (!result)
         {
-            logResultFailed();
+            Graphics::logResultFailed();
             return;
         }
 
@@ -20,7 +20,8 @@ namespace VulkanTest::Tests {
         result = Graphics::readRequiredExtension(filepath, &requiredExtensions);
         if (!result)
         {
-            logResultFailed();
+            Graphics::logResultFailed();
+            Graphics::deleteRequiredExtensions(requiredExtensions);
             return;
         }
         Graphics::logRequiredExtension(requiredExtensions);
@@ -28,29 +29,17 @@ namespace VulkanTest::Tests {
         result = Graphics::checkIfRequiredExtensionsArePresent(requiredExtensions, availableExtensions);
         if (!result)
         {
-            logResultFailed();
+            Graphics::logResultFailed();
+            Graphics::deleteRequiredExtensions(requiredExtensions);
             return;
         }
 
         VkInstance instance;
         if (!Graphics::createVulkanInstance(instance, requiredExtensions))
-            logResultFailed();
+            Graphics::logResultFailed();
         else
-            logResultSuccess();
+            Graphics::logResultSuccess();
 
-		for(const char* extension : requiredExtensions)
-		    delete[] extension;
+        Graphics::deleteRequiredExtensions(requiredExtensions);
 	}
-
-	void TestCreateInstance::logResultFailed()
-    {
-        Utils::Log::info("");
-        Utils::Log::error("Test result: failed");
-    }
-
-    void TestCreateInstance::logResultSuccess()
-    {
-        Utils::Log::info("");
-        Utils::Log::error("Test result: success");
-    }
 }

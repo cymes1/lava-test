@@ -5,6 +5,7 @@
 #include <vector>
 #include <vulkan/vulkan.h>
 #include "test.h"
+#include "../graphics/test-helper.h"
 #include "../graphics/test-available-vulkan-extensions-helper.h"
 #include "../graphics/test-create-instance-helper.h"
 
@@ -14,10 +15,6 @@ namespace VulkanTest::Tests {
 	{
 	public:
 		TestCreateInstance();
-
-	private:
-	    void logResultFailed();
-        void logResultSuccess();
 	};
 }
 

@@ -162,81 +162,9 @@ namespace VulkanTest::Graphics {
         return (result != VK_SUCCESS) || (instance == VK_NULL_HANDLE);
     }
 
-    bool enumeratePhysicalDevices(VkInstance& instance, std::vector<VkPhysicalDevice>& availableDevices)
+    void deleteRequiredExtensions(const std::vector<const char*>& requiredExtensions)
     {
-        VkResult result;
-
-        Utils::Log::info("Retrieving the number of available physical devices...");
-        uint32_t devicesCount;
-        result = vkEnumeratePhysicalDevices(instance, &devicesCount, nullptr);
-        if(result != VK_SUCCESS)
-        {
-            Utils::Log::error("failed");
-            return false;
-        }
-        Utils::Log::info("success");
-
-        Utils::Log::info("Retrieving available physical devices...");
-        availableDevices.resize(devicesCount);
-        result = vkEnumeratePhysicalDevices(instance, &devicesCount, availableDevices.data());
-        if(result != VK_SUCCESS)
-        {
-            Utils::Log::error("failed");
-            return false;
-        }
-        Utils::Log::info("success");
-        Utils::Log::info("");
-
-        // log number of available instance extensions
-        Utils::Log::info(("Available physical devices: " + std::to_string(devicesCount)).c_str());
-        Utils::Log::info("");
-
-        return true;
-    }
-
-    bool enumeratePhysicalDeviceExtensions(const VkPhysicalDevice& device, std::vector<VkExtensionProperties>& extensionsProperties)
-    {
-        VkResult result;
-
-        // stores the number of available physical device extensions
-        uint32_t extensionsCount;
-
-        // retrieve the number of available instance extensions
-        Utils::Log::info("Retrieving the number of available physical device extensions...");
-        result = vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionsCount, nullptr);
-
-        // check if success
-        if(result != VK_SUCCESS || extensionsCount == 0)
-        {
-            Utils::Log::error("failed");
-            return false;
-        }
-        Utils::Log::info("success");
-
-        // stores the properties of available physical device extensions
-        extensionsProperties.resize(extensionsCount);
-
-        // retrieve the properties of available physical device extensions
-        Utils::Log::info("Retrieving the properties of available physical device externsions...");
-        result = vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionsCount, extensionsProperties.data());
-
-        if(result != VK_SUCCESS)
-        {
-            Utils::Log::error("failed");
-            return false;
-        }
-        Utils::Log::info("success");
-
-        // log number of available physical device extensions
-        Utils::Log::info("");
-        Utils::Log::info(("Available physical device extensions: " + std::to_string(extensionsCount)).c_str());
-        for(auto properties : extensionsProperties)
-        {
-            Utils::Log::info((std::string("\tname: ") + properties.extensionName).c_str());
-            Utils::Log::info((std::string("\tversion: ") + std::to_string(properties.specVersion)).c_str());
-            Utils::Log::info("");
-        }
-
-        return true;
+        for(const char* extension : requiredExtensions)
+            delete[] extension;
     }
 }

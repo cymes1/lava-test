@@ -12,9 +12,9 @@ namespace VulkanTest::Tests {
 		if(result)
         {
             Graphics::logAvailableVulkanExtensions(&availableExtensions);
-            Utils::Log::info("Test result: success");
+            Graphics::logResultSuccess();
         }
 		else
-			Utils::Log::error("Test result: failed.");
+		    Graphics::logResultFailed();
 	}
 }

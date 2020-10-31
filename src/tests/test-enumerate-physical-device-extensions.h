@@ -6,6 +6,7 @@
 #include "test.h"
 #include "../graphics/test-available-vulkan-extensions-helper.h"
 #include "../graphics/test-create-instance-helper.h"
+#include "../graphics/test-enumerate-physical-devices-helper.h"
 
 namespace VulkanTest::Tests {
 

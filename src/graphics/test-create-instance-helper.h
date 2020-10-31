@@ -20,8 +20,7 @@ namespace VulkanTest::Graphics {
     void fillInApplicationInfo(VkApplicationInfo& applicationInfo);
     void fillInInstanceCreateInfo(VkInstanceCreateInfo& instanceCreateInfo, const VkApplicationInfo& applicationInfo, const std::vector<const char*>& requiredExtensions);
     bool wasInstanceCreationSuccessful(VkResult result, const VkInstance& instance);
-    bool enumeratePhysicalDevices(VkInstance& instance, std::vector<VkPhysicalDevice>& availableDevices);
-    bool enumeratePhysicalDeviceExtensions(const VkPhysicalDevice& device, std::vector<VkExtensionProperties>& extensionProperties);
+    void deleteRequiredExtensions(const std::vector<const char*>& requiredExtensions);
 }
 
 #endif

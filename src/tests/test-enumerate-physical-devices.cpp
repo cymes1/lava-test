@@ -1,5 +1,4 @@
 #include "test-enumerate-physical-devices.h"
-#include "../utils/log.h"
 
 namespace VulkanTest::Tests {
 
@@ -8,41 +7,51 @@ namespace VulkanTest::Tests {
 		Utils::Log::info("Starting test: enumerate physical devices.");
 		Utils::Log::info("");
 
-		// check vulkan instance extensions
 		std::vector<VkExtensionProperties> availableExtensions;
-		if(!Graphics::checkAvailableVulkanExtensions(&availableExtensions))
+		bool result = Graphics::checkAvailableVulkanExtensions(&availableExtensions);
+		if(!result)
 		{
-			Utils::Log::error("failed");
+		    Graphics::logResultFailed();
 			return;
 		}
 
-		// read required extensions from config file
 		std::string filepath = "data/test-create-instance.conf";
 		std::vector<const char*> requiredExtensions;
-		if(!Graphics::readRequiredExtension(filepath, &requiredExtensions))
-		{
-			Utils::Log::error("failed");
-			return;
-		}
+        result = Graphics::readRequiredExtension(filepath, &requiredExtensions);
+        if (!result)
+        {
+            Graphics::logResultFailed();
+            Graphics::deleteRequiredExtensions(requiredExtensions);
+            return;
+        }
 
-		// check if required instance extensions are present
-		if(!Graphics::checkIfRequiredExtensionsArePresent(requiredExtensions, availableExtensions))
-		{
-			Utils::Log::error("failed");
-			return;
-		}
+        result = Graphics::checkIfRequiredExtensionsArePresent(requiredExtensions, availableExtensions);
+        if (!result)
+        {
+            Graphics::logResultFailed();
+            Graphics::deleteRequiredExtensions(requiredExtensions);
+            return;
+        }
 
-		// create vulkan instance
-		VkInstance instance;
-		if(!Graphics::createVulkanInstance(instance, requiredExtensions))
-		{
-			Utils::Log::error("failed");
-			return;
-		}
+        VkInstance instance;
+        if (!Graphics::createVulkanInstance(instance, requiredExtensions))
+        {
+            Graphics::logResultFailed();
+            Graphics::deleteRequiredExtensions(requiredExtensions);
+            return;
+        }
 
-		// enumerate physical devices
 		std::vector<VkPhysicalDevice> availableDevices;
-		if(!Graphics::enumeratePhysicalDevices(instance, availableDevices))
-			Utils::Log::error("failed");
+        result = Graphics::enumeratePhysicalDevices(instance, availableDevices);
+        if(!result)
+        {
+            Graphics::logResultFailed();
+            Graphics::deleteRequiredExtensions(requiredExtensions);
+            return;
+        }
+
+        Graphics::logPhysicalDeviceCount(availableDevices.size());
+        Graphics::deleteRequiredExtensions(requiredExtensions);
+        Graphics::logResultSuccess();
 	}
 }
